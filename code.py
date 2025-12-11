@@ -53,3 +53,16 @@ df['AvgScore'] = df['TotalScore'] / 3
 print("\nCleaned Data Overview:")
 print(df.info())
 print(df.head())
+
+#Distribution of Scores
+
+plt.figure(figsize=(8,6))                                                             # Set figure size
+sns.histplot(df['MathScore'], kde=True, color='skyblue', label='Math Score')              # MathScore distribution
+sns.histplot(df['ReadingScore'], kde=True, color='lightgreen', label='Reading Score')      # ReadingScore distribution
+sns.histplot(df['WritingScore'], kde=True, color='salmon', label='Writing Score')        # WritingScore distribution
+plt.title('Distribution of Exam Scores')                                                 # Chart title
+plt.xlabel('Scores')                          # X-axis label
+plt.ylabel('Frequency')                  # Y-axis label
+plt.legend()                     # Display legend
+plt.show()                     # Show plot
+
