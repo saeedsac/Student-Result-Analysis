@@ -41,3 +41,15 @@ cleaned_overview = pd.DataFrame({
 print("\n=== Cleaned Dataset Overview ===")
 print(cleaned_overview.to_string(index=False))
 print("\nData Shape after cleaning:", df.shape)
+# 1. Standardize Text Columns
+text_cols = categorical_cols  # same as above
+for col in text_cols:
+    df[col] = df[col].str.lower().str.strip()
+# Total Score
+df['TotalScore'] = df['MathScore'] + df['ReadingScore'] + df['WritingScore']
+# Average Score
+df['AvgScore'] = df['TotalScore'] / 3
+# 3. Final Check
+print("\nCleaned Data Overview:")
+print(df.info())
+print(df.head())
