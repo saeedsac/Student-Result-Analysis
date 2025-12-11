@@ -75,3 +75,11 @@ plt.title('Weekly Study Hours vs Total Score')                                  
 plt.xlabel('Weekly Study Hours')                                             # X-axis label
 plt.ylabel('Total Score')                                               # Y-axis label
 plt.show()                                                          # Display plot
+
+avg_gender = df.groupby('Gender')[['MathScore', 'ReadingScore', 'WritingScore']].mean()
+print(avg_gender)
+
+avg_gender.plot(kind='bar', figsize=(6,4))
+plt.title('Average Score by Gender')
+plt.ylabel('Average Score')
+plt.show()
