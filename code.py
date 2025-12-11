@@ -91,3 +91,18 @@ avg_prep.plot(kind='bar', figsize=(6,3), color=['skyblue', 'lightgreen', 'salmon
 plt.title('Impact of Test Preparation on Scores')
 plt.ylabel('Average Score')
 plt.show()
+
+import pandas as pd
+#  Total Marks
+df['TotalMarks'] = df[['MathScore', 'ReadingScore', 'WritingScore']].sum(axis=1)
+
+#  Class Average per student
+df['ClassAverage'] = df[['MathScore', 'ReadingScore', 'WritingScore']].mean(axis=1)
+
+# Percentage
+df['Percentage'] = (df['TotalMarks'] / 300) * 100  # assuming each subject is out of 100
+
+# Display in one table (separate columns)
+output1 = df[['TotalMarks', 'ClassAverage', 'Percentage']]
+print("=== Total, Class Average & Percentage ===")
+display(output1)
