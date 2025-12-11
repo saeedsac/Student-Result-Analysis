@@ -14,30 +14,24 @@ except FileNotFoundError:                                      # File missing
     print("Error: File not found. Please check the filename or path.")
 except Exception as e:                                         # Other errors
     print("An unexpected error occurred:", e)
-# ==============================
+
 # BLOCK 1: OVERVIEW & DUPLICATES
-# ==============================
 
 # 1. Overview in Table Format
 overview = pd.DataFrame({
     'Column': df.columns,
     'Data Type': df.dtypes.astype(str),   # convert dtypes to string for display
-    'Missing Values': df.isnull().sum()
-})
+    'Missing Values': df.isnull().sum() })
+
 print("=== Dataset Overview ===")
 print(overview.to_string(index=False))  # Safe display in all environments
-
 # 2. Remove Duplicates
 duplicates = df.duplicated().sum()
 print(f"\nNumber of duplicate rows removed: {duplicates}")
 df = df.drop_duplicates()
-
 # 3. Verify Changes (Aligned)
-cleaned_overview = pd.DataFrame({
-    'Column': df.columns,
-    'Data Type': df.dtypes.astype(str),
-    'Missing Values After Cleaning': df.isnull().sum()
-})
+cleaned_overview = pd.DataFrame({'Column': df.columns,'Data Type': df.dtypes.astype(str),
+    'Missing Values After Cleaning': df.isnull().sum() })
 print("\n=== Cleaned Dataset Overview ===")
 print(cleaned_overview.to_string(index=False))
 print("\nData Shape after cleaning:", df.shape)
@@ -78,7 +72,6 @@ plt.show()                                                          # Display pl
 
 avg_gender = df.groupby('Gender')[['MathScore', 'ReadingScore', 'WritingScore']].mean()
 print(avg_gender)
-
 avg_gender.plot(kind='bar', figsize=(6,4))
 plt.title('Average Score by Gender')
 plt.ylabel('Average Score')
@@ -86,22 +79,17 @@ plt.show()
 
 avg_prep = df.groupby('TestPrep')[['MathScore', 'ReadingScore', 'WritingScore']].mean()
 print(avg_prep)
-
 avg_prep.plot(kind='bar', figsize=(6,3), color=['skyblue', 'lightgreen', 'salmon'])
 plt.title('Impact of Test Preparation on Scores')
 plt.ylabel('Average Score')
 plt.show()
 
-import pandas as pd
 #  Total Marks
 df['TotalMarks'] = df[['MathScore', 'ReadingScore', 'WritingScore']].sum(axis=1)
-
 #  Class Average per student
 df['ClassAverage'] = df[['MathScore', 'ReadingScore', 'WritingScore']].mean(axis=1)
-
 # Percentage
 df['Percentage'] = (df['TotalMarks'] / 300) * 100  # assuming each subject is out of 100
-
 # Display in one table (separate columns)
 output1 = df[['TotalMarks', 'ClassAverage', 'Percentage']]
 print("=== Total, Class Average & Percentage ===")
@@ -112,18 +100,17 @@ display(output1)
 # Grade Assignment based on Percentage
 def assign_grade(perc):
     if perc >= 90:
-        return 'A+'  # Excellent
+        return 'A+'  
     elif perc >= 80:
-        return 'A'   # Very Good
+        return 'A'  
     elif perc >= 70:
-        return 'B'   # Good
+        return 'B'   
     elif perc >= 60:
-        return 'C'   # Average
+        return 'C'   
     elif perc >= 50:
-        return 'D'   # Pass
+        return 'D'   
     else:
-        return 'F'   # Fail
-
+        return 'F' 
 df['Grade'] = df['Percentage'].apply(assign_grade)                   # Apply grade to each student
 # Class Rank based on TotalMarks
 df['ClassRank'] = df['TotalMarks'].rank(ascending=False, method='min')              # Rank students
@@ -132,4 +119,21 @@ output2 = df[['Grade', 'ClassRank']]                          # Select only Grad
 print("=== Grade & Class Rank ===")
 display(output2)  # Show table
 
+#Result card
 
+# Create 'Name' column with default value 'ABC' if it doesn't exist
+if 'Name' not in df.columns:
+    df['Name'] = 'ABC'  # Default name
+# Calculate TotalMarks and Average Score
+df['TotalMarks'] = df[['MathScore', 'ReadingScore', 'WritingScore']].sum(axis=1)  # Sum of all subjects
+df['AvgScore'] = df['TotalMarks'] / 3  # Average score
+# Assign Grade based on AvgScore
+df['Grade'] = pd.cut(df['AvgScore'],
+    bins=[0,50,60,70,80,90,100],                 # Score ranges
+    labels=['F','D','C','B','A','A+'],          # Grade labels
+    right=False)                                 # Include left bin edge
+# Select columns for the result card
+result_card = df[['Name', 'MathScore', 'ReadingScore', 'WritingScore', 
+'TotalMarks', 'AvgScore', 'Grade']]                                        # Columns to display
+print("=== STUDENT RESULT CARDS ===")                                      # Display result card
+display(result_card)  # Show table
