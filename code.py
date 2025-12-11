@@ -83,3 +83,11 @@ avg_gender.plot(kind='bar', figsize=(6,4))
 plt.title('Average Score by Gender')
 plt.ylabel('Average Score')
 plt.show()
+
+avg_prep = df.groupby('TestPrep')[['MathScore', 'ReadingScore', 'WritingScore']].mean()
+print(avg_prep)
+
+avg_prep.plot(kind='bar', figsize=(6,3), color=['skyblue', 'lightgreen', 'salmon'])
+plt.title('Impact of Test Preparation on Scores')
+plt.ylabel('Average Score')
+plt.show()
