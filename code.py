@@ -106,3 +106,30 @@ df['Percentage'] = (df['TotalMarks'] / 300) * 100  # assuming each subject is ou
 output1 = df[['TotalMarks', 'ClassAverage', 'Percentage']]
 print("=== Total, Class Average & Percentage ===")
 display(output1)
+
+#Grading System
+
+# Grade Assignment based on Percentage
+def assign_grade(perc):
+    if perc >= 90:
+        return 'A+'  # Excellent
+    elif perc >= 80:
+        return 'A'   # Very Good
+    elif perc >= 70:
+        return 'B'   # Good
+    elif perc >= 60:
+        return 'C'   # Average
+    elif perc >= 50:
+        return 'D'   # Pass
+    else:
+        return 'F'   # Fail
+
+df['Grade'] = df['Percentage'].apply(assign_grade)                   # Apply grade to each student
+# Class Rank based on TotalMarks
+df['ClassRank'] = df['TotalMarks'].rank(ascending=False, method='min')              # Rank students
+# Display results in a table
+output2 = df[['Grade', 'ClassRank']]                          # Select only Grade and Rank columns
+print("=== Grade & Class Rank ===")
+display(output2)  # Show table
+
+
