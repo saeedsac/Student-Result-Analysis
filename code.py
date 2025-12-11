@@ -66,3 +66,12 @@ plt.ylabel('Frequency')                  # Y-axis label
 plt.legend()                     # Display legend
 plt.show()                     # Show plot
 
+# relation bw Study Hours and Total Score
+
+df['TotalScore'] = df['MathScore'] + df['ReadingScore'] + df['WritingScore']       # Calculate total score
+plt.figure(figsize=(6,4))                                                          # Set figure size
+sns.scatterplot(data=df, x='WklyStudyHours', y='TotalScore', hue='TestPrep')       # Scatter: study hours vs total score
+plt.title('Weekly Study Hours vs Total Score')                                      # Add plot title
+plt.xlabel('Weekly Study Hours')                                             # X-axis label
+plt.ylabel('Total Score')                                               # Y-axis label
+plt.show()                                                          # Display plot
